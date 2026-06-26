@@ -1,0 +1,154 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Shared field base                                                   */
+/* ------------------------------------------------------------------ */
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label,
+.legend {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.legend {
+  float: left; /* makes fieldset legend behave like a label */
+  margin-bottom: var(--space-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.required {
+  color: #e11d48;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Inputs                                                              */
+/* ------------------------------------------------------------------ */
+
+.input,
+.textarea {
+  width: 100%;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.textarea {
+  resize: vertical;
+  line-height: 1.5;
+  min-height: 80px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Fieldset (projects / links)                                        */
+/* ------------------------------------------------------------------ */
+
+.fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Repeat group                                                        */
+/* ------------------------------------------------------------------ */
+
+.repeatGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.repeatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repeatIndex {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.removeBtn:hover {
+  color: #e11d48;
+  background: #fff1f2;
+}
+
+.removeBtn:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.linkRow {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-sm);
+}
+
+@media (max-width: 480px) {
+  .linkRow {
+    grid-template-columns: 1fr;
+  }
+}
