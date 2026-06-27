@@ -1,0 +1,141 @@
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Field (label + control pair)                                       */
+/* ------------------------------------------------------------------ */
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.fieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Select                                                             */
+/* ------------------------------------------------------------------ */
+
+.select {
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  padding: 5px 28px 5px 10px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2378716c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  transition: border-color var(--transition-fast);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-color: var(--color-border-focus);
+}
+
+.select:hover {
+  border-color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Toggle group                                                       */
+/* ------------------------------------------------------------------ */
+
+.toggleGroup {
+  display: flex;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.toggleBtn {
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 5px 12px;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.toggleBtn + .toggleBtn {
+  border-left: 1px solid var(--color-border-strong);
+}
+
+.toggleBtn:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.toggleBtn:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: -2px;
+}
+
+.toggleActive {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.toggleActive:hover {
+  background: var(--color-accent-hover);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Spacer + actions                                                   */
+/* ------------------------------------------------------------------ */
+
+.spacer {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .actions > * {
+    flex: 1;
+    justify-content: center;
+  }
+}
