@@ -1,12 +1,7 @@
 /**
- * Markdown generation engine.
+ * Clean & Professional Markdown generation engine.
  *
- * Pure function that takes a template, form data, and generator options
- * and produces a clean Markdown string.
- *
- * This module is the plug-point for AI integration: replace the
- * deterministic string builder with an API call to an LLM and keep
- * the same signature.
+ * Produces clean, elegant GitHub Markdown without generic AI emojis or unparsed HTML entities.
  */
 
 import type {
@@ -16,16 +11,21 @@ import type {
   ProjectEntry,
   LinkEntry,
   Tone,
+  BadgeStyle,
+  GitHubWidgetsConfig,
+  TechBadge,
 } from "./types";
+import { TECH_BADGES, generateBadgeMarkdown } from "./badge-catalog";
+import { renderGitHubWidgets } from "./github-widgets";
 
 /* ------------------------------------------------------------------ */
-/*  Tone presets                                                       */
+/*  Tone intros (clean, professional typography)                       */
 /* ------------------------------------------------------------------ */
 
 const toneIntros: Record<Tone, (name: string, role: string) => string> = {
   professional: (name, role) => `# ${name} — ${role}`,
   direct: (name, role) => `# ${name} | ${role}`,
-  creative: (name, role) => `# 👋 Hey, I'm ${name} — ${role}`,
+  creative: (name, role) => `# ${name} // ${role}`,
 };
 
 /* ------------------------------------------------------------------ */
@@ -53,35 +53,59 @@ function toStringList(value: string | string[]): string[] {
 
 function renderSkills(
   skills: string | string[],
-  options: GeneratorOptions
+  options: GeneratorOptions,
+  label: string = "Tech Stack",
+  selectedBadges?: string[],
+  badgeStyle: BadgeStyle = "for-the-badge"
 ): string {
   const items = toStringList(skills);
-  if (items.length === 0) return "";
+  const heading = `## ${label}`;
 
-  const heading = options.tone === "creative" ? "## 🛠 Skills" : "## Skills";
-  const list = items.map((s) => `- ${s}`).join("\n");
-  return `${heading}\n\n${list}`;
+  let badgeMarkdown = "";
+  if (selectedBadges && selectedBadges.length > 0) {
+    const badgesToRender = selectedBadges
+      .map((id) => TECH_BADGES.find((b) => b.id === id))
+      .filter((b): b is TechBadge => b !== undefined);
+
+    if (badgesToRender.length > 0) {
+      badgeMarkdown = badgesToRender
+        .map((b) => generateBadgeMarkdown(b, badgeStyle))
+        .join(" ");
+    }
+  }
+
+  const listMarkdown =
+    items.length > 0 ? items.map((s) => `- ${s}`).join("\n") : "";
+
+  if (!badgeMarkdown && !listMarkdown) return "";
+
+  if (badgeMarkdown && listMarkdown) {
+    return `${heading}\n\n${badgeMarkdown}\n\n${listMarkdown}`;
+  }
+  return `${heading}\n\n${badgeMarkdown || listMarkdown}`;
 }
 
 function renderProjects(
   projects: ProjectEntry[],
-  options: GeneratorOptions
+  options: GeneratorOptions,
+  label: string = "Featured Projects"
 ): string {
-  const valid = projects.filter((p) => p.name.trim());
+  const valid = Array.isArray(projects)
+    ? projects.filter((p) => p && typeof p === "object" && p.name && p.name.trim())
+    : [];
   if (valid.length === 0) return "";
 
-  const heading =
-    options.tone === "creative" ? "## 🚀 Projects" : "## Projects";
+  const heading = `## ${label}`;
 
   const entries = valid.map((p) => {
-    let block = `### ${p.name}`;
-    if (p.description.trim()) {
+    let block = `### ${p.name.trim()}`;
+    if (p.description && p.description.trim()) {
       block +=
         options.detailLevel === "concise"
           ? `\n${p.description.trim().split("\n")[0]}`
           : `\n${p.description.trim()}`;
     }
-    if (p.url.trim()) {
+    if (p.url && p.url.trim()) {
       block += `\n[View Project →](${p.url.trim()})`;
     }
     return block;
@@ -92,17 +116,19 @@ function renderProjects(
 
 function renderLinks(
   links: LinkEntry[],
-  options: GeneratorOptions
+  options: GeneratorOptions,
+  label: string = "Connect with Me"
 ): string {
-  const valid = links.filter((l) => l.url.trim());
+  const valid = Array.isArray(links)
+    ? links.filter((l) => l && typeof l === "object" && l.url && l.url.trim())
+    : [];
   if (valid.length === 0) return "";
 
-  const heading =
-    options.tone === "creative" ? "## 📫 Contact" : "## Contact";
+  const heading = `## ${label}`;
   const list = valid
     .map((l) => {
-      const label = l.label.trim() || l.url.trim();
-      return `- [${label}](${l.url.trim()})`;
+      const linkText = l.label && l.label.trim() ? l.label.trim() : l.url.trim();
+      return `- [${linkText}](${l.url.trim()})`;
     })
     .join("\n");
   return `${heading}\n\n${list}`;
@@ -116,30 +142,32 @@ function renderTextSection(
 ): string {
   if (!isNonEmpty(value)) return "";
 
-  const emojiMap: Record<string, string> = {
-    achievements: "📊",
-    testimonials: "💬",
-    currentWork: "🔭",
-    badges: "📈",
-  };
-
-  const emoji = options.tone === "creative" ? emojiMap[key] || "" : "";
-  const heading = emoji ? `## ${emoji} ${label}` : `## ${label}`;
-
   let body = value.trim();
+
+  // For concise mode, take only first paragraph (except for bio/badges)
+  if (options.detailLevel === "concise" && key !== "badges") {
+    const firstParagraph = body.split("\n\n")[0];
+    body = firstParagraph;
+  }
+
+  // Bio is the intro summary directly under the title without a section header
+  if (key === "bio") {
+    return body;
+  }
+
+  // Badges are embedded directly
+  if (key === "badges") {
+    return body;
+  }
+
+  const heading = `## ${label}`;
 
   // For testimonials, wrap in blockquote if not already
   if (key === "testimonials" && !body.startsWith(">")) {
     body = body
       .split("\n")
-      .map((line) => `> ${line}`)
+      .map((line) => (line.trim().startsWith(">") ? line : `> ${line}`))
       .join("\n");
-  }
-
-  // For concise mode, take only first paragraph
-  if (options.detailLevel === "concise") {
-    const firstParagraph = body.split("\n\n")[0];
-    body = firstParagraph;
   }
 
   return `${heading}\n\n${body}`;
@@ -149,10 +177,17 @@ function renderTextSection(
 /*  Main generator                                                     */
 /* ------------------------------------------------------------------ */
 
+export interface GeneratorExtraOptions {
+  selectedBadges?: string[];
+  badgeStyle?: BadgeStyle;
+  widgets?: GitHubWidgetsConfig;
+}
+
 export function generateMarkdown(
   template: Template,
   data: FormData,
-  options: GeneratorOptions
+  options: GeneratorOptions,
+  extras?: GeneratorExtraOptions
 ): string {
   const parts: string[] = [];
 
@@ -169,20 +204,33 @@ export function generateMarkdown(
     // Skip name and role (already used in title)
     if (section.key === "name" || section.key === "role") continue;
 
-    // Skip empty non-required sections
-    if (!isNonEmpty(value)) continue;
+    // Skip empty non-required sections (unless selectedBadges are present for skills)
+    const hasBadges = section.key === "skills" && extras?.selectedBadges && extras.selectedBadges.length > 0;
+    if (!isNonEmpty(value) && !hasBadges) continue;
 
     switch (section.type) {
       case "list":
-        parts.push(renderSkills(value as string | string[], options));
+        parts.push(
+          renderSkills(
+            (value as string | string[]) || "",
+            options,
+            section.label,
+            extras?.selectedBadges,
+            extras?.badgeStyle
+          )
+        );
         break;
 
       case "projects":
-        parts.push(renderProjects(value as ProjectEntry[], options));
+        parts.push(
+          renderProjects(value as ProjectEntry[], options, section.label)
+        );
         break;
 
       case "links":
-        parts.push(renderLinks(value as LinkEntry[], options));
+        parts.push(
+          renderLinks(value as LinkEntry[], options, section.label)
+        );
         break;
 
       case "text":
@@ -196,6 +244,14 @@ export function generateMarkdown(
           )
         );
         break;
+    }
+  }
+
+  // 3. Append GitHub Widgets if configured
+  if (extras?.widgets && extras.widgets.username) {
+    const widgetMarkdown = renderGitHubWidgets(extras.widgets);
+    if (widgetMarkdown) {
+      parts.push(widgetMarkdown);
     }
   }
 

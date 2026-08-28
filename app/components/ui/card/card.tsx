@@ -28,7 +28,7 @@ export function Card({
 
   const classNames = [
     styles.card,
-    isSelectable && styles.selectable,
+    isSelectable && styles.interactive,
     selected && styles.selected,
     className,
   ]

@@ -78,3 +78,83 @@ export type FormData = Record<
   string,
   string | string[] | ProjectEntry[] | LinkEntry[]
 >;
+
+/* ------------------------------------------------------------------ */
+/*  Tech Badges                                                        */
+/* ------------------------------------------------------------------ */
+
+export type BadgeCategory =
+  | "languages"
+  | "frontend"
+  | "backend"
+  | "database"
+  | "cloud_devops"
+  | "tools_os"
+  | "ai_data";
+
+export type BadgeStyle = "flat" | "flat-square" | "for-the-badge" | "plastic";
+
+export interface TechBadge {
+  id: string;
+  name: string;
+  category: BadgeCategory;
+  slug: string;
+  color: string;
+  logoColor: string;
+}
+
+/* ------------------------------------------------------------------ */
+/*  GitHub Widgets                                                     */
+/* ------------------------------------------------------------------ */
+
+export type GitHubTheme =
+  | "default"
+  | "github_dark"
+  | "dracula"
+  | "tokyonight"
+  | "radical"
+  | "nord"
+  | "merko"
+  | "gruvbox"
+  | "catppuccin_mocha"
+  | "onedark"
+  | "cobalt"
+  | "synthwave";
+
+export interface GitHubWidgetsConfig {
+  username: string;
+  showStats: boolean;
+  showLanguages: boolean;
+  showStreak: boolean;
+  showTrophies: boolean;
+  theme: GitHubTheme;
+  hideBorder: boolean;
+  showIcons: boolean;
+}
+
+/* ------------------------------------------------------------------ */
+/*  AI Assistant                                                       */
+/* ------------------------------------------------------------------ */
+
+export type AIAction =
+  | "enhance-bio"
+  | "enhance-project"
+  | "suggest-skills"
+  | "generate-summary";
+
+export interface AIEnhanceRequest {
+  action: AIAction;
+  text?: string;
+  role?: string;
+  tone?: Tone;
+  skills?: string[];
+  context?: Record<string, unknown>;
+}
+
+export interface AIEnhanceResponse {
+  result: string | string[];
+  success: boolean;
+  source?: "groq" | "offline";
+  error?: string;
+}
+

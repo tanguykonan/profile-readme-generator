@@ -5,61 +5,128 @@
 }
 
 /* ------------------------------------------------------------------ */
-/*  Shared field base                                                   */
+/*  Section Card                                                       */
 /* ------------------------------------------------------------------ */
+
+.sectionCard {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+
+.sectionHeaderFlex {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--space-md);
+}
+
+.sectionIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.sectionDesc {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+  margin: 2px 0 0;
+  line-height: 1.4;
+}
+
+.cardBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Form Fields & Grid                                                 */
+/* ------------------------------------------------------------------ */
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}
 
 .fieldGroup {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: 6px;
 }
 
-.label,
-.legend {
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text-primary);
 }
 
-.legend {
-  float: left; /* makes fieldset legend behave like a label */
-  margin-bottom: var(--space-sm);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
 .required {
-  color: #e11d48;
-}
-
-.hint {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-  margin: 0;
+  color: #ef4444;
 }
 
 /* ------------------------------------------------------------------ */
-/*  Inputs                                                              */
+/*  Inputs & Textarea                                                  */
 /* ------------------------------------------------------------------ */
 
 .input,
 .textarea {
   width: 100%;
-  background: var(--color-bg-elevated);
+  background: var(--color-bg-secondary);
   color: var(--color-text-primary);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   font-family: inherit;
-  font-size: 0.875rem;
-  padding: 8px 12px;
-  transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+  font-size: 0.9375rem;
+  padding: 10px 14px;
   outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
 }
 
 .input:focus,
 .textarea:focus {
+  background: var(--color-bg-elevated);
   border-color: var(--color-border-focus);
   box-shadow: 0 0 0 3px var(--color-accent-light);
 }
@@ -71,58 +138,100 @@
 
 .textarea {
   resize: vertical;
-  line-height: 1.5;
-  min-height: 80px;
+  line-height: 1.6;
 }
 
 /* ------------------------------------------------------------------ */
-/*  Fieldset (projects / links)                                        */
+/*  AI Assistant Action Buttons                                        */
 /* ------------------------------------------------------------------ */
 
-.fieldset {
+.aiButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: var(--color-accent-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.aiButton:hover {
+  background: var(--color-accent);
+  color: #ffffff;
+  border-color: var(--color-accent);
+}
+
+.aiButtonSmall {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.aiButtonSmall:hover {
+  background: var(--color-accent-subtle);
+  border-color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Project Cards                                                      */
+/* ------------------------------------------------------------------ */
+
+.projectItemCard {
+  background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-md);
-  margin: 0;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: 12px;
 }
 
-/* ------------------------------------------------------------------ */
-/*  Repeat group                                                        */
-/* ------------------------------------------------------------------ */
-
-.repeatGroup {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  padding: var(--space-sm);
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-}
-
-.repeatHeader {
+.itemHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.repeatIndex {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-tertiary);
+.itemBadge {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.projectFields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .removeBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   background: transparent;
   border: none;
   border-radius: var(--radius-sm);
@@ -132,23 +241,46 @@
 }
 
 .removeBtn:hover {
-  color: #e11d48;
-  background: #fff1f2;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
 }
 
-.removeBtn:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: 2px;
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 9px 16px;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
 }
 
-.linkRow {
+.addBtn:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Links Rows                                                         */
+/* ------------------------------------------------------------------ */
+
+.linkRowItem {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: var(--space-sm);
+  grid-template-columns: 1fr 2fr auto;
+  gap: 10px;
+  align-items: center;
 }
 
-@media (max-width: 480px) {
-  .linkRow {
+@media (max-width: 540px) {
+  .linkRowItem {
     grid-template-columns: 1fr;
   }
 }

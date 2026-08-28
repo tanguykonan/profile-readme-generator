@@ -1,12 +1,18 @@
+.barContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
 .bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
+  padding: 12px var(--space-lg);
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
 }
 
@@ -17,14 +23,17 @@
 .field {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: 8px;
 }
 
 .fieldLabel {
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-text-secondary);
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* ------------------------------------------------------------------ */
@@ -39,13 +48,13 @@
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
-  padding: 5px 28px 5px 10px;
+  padding: 6px 30px 6px 12px;
   cursor: pointer;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2378716c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  transition: border-color var(--transition-fast);
+  background-position: right 10px center;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
 }
 
 .select:focus-visible {
@@ -67,6 +76,7 @@
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   overflow: hidden;
+  background: var(--color-bg-secondary);
 }
 
 .toggleBtn {
@@ -74,7 +84,7 @@
   font-size: 0.8125rem;
   font-weight: 500;
   padding: 5px 12px;
-  background: var(--color-bg-secondary);
+  background: transparent;
   color: var(--color-text-secondary);
   border: none;
   cursor: pointer;
@@ -86,18 +96,13 @@
 }
 
 .toggleBtn:hover {
-  background: var(--color-bg-tertiary);
   color: var(--color-text-primary);
-}
-
-.toggleBtn:focus-visible {
-  outline: 2px solid var(--color-border-focus);
-  outline-offset: -2px;
 }
 
 .toggleActive {
   background: var(--color-accent);
   color: #fff;
+  font-weight: 600;
 }
 
 .toggleActive:hover {
@@ -106,8 +111,15 @@
 }
 
 /* ------------------------------------------------------------------ */
-/*  Spacer + actions                                                   */
+/*  Tool buttons & Spacer                                              */
 /* ------------------------------------------------------------------ */
+
+.toolButtons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
 
 .spacer {
   flex: 1;
@@ -116,11 +128,36 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: 8px;
   flex-wrap: wrap;
 }
 
-@media (max-width: 640px) {
+/* ------------------------------------------------------------------ */
+/*  Stats & Status sub-bar                                             */
+/* ------------------------------------------------------------------ */
+
+.statsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px var(--space-md);
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+
+.statsMetrics {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.autoSaveNotice {
+  font-size: 0.6875rem;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
   .bar {
     flex-direction: column;
     align-items: stretch;
@@ -128,6 +165,10 @@
 
   .spacer {
     display: none;
+  }
+
+  .toolButtons {
+    justify-content: flex-start;
   }
 
   .actions {

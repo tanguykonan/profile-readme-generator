@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "./components/shared/theme-provider";
+import { ToastProvider } from "./components/shared/toast";
 import { Header } from "./components/shared/header/header";
 import { Footer } from "./components/shared/footer/footer";
 import "./globals.css";
@@ -48,9 +49,11 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <Header />
-          <main style={{ flex: 1 }}>{children}</main>
-          <Footer />
+          <ToastProvider>
+            <Header />
+            <main style={{ flex: 1 }}>{children}</main>
+            <Footer />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>
