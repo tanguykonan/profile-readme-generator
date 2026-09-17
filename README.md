@@ -112,54 +112,6 @@ npm run start
 
 ---
 
-## 📁 Project Structure
-
-```
-├── app/
-│   ├── api/
-│   │   └── ai/
-│   │       └── enhance/route.ts   # Next.js Route Handler for AI Assistant
-│   ├── components/
-│   │   ├── generator/
-│   │   │   ├── ai-assistant-modal.tsx  # AI Assistant modal
-│   │   │   ├── badge-picker.tsx        # 80+ Tech badges catalog & selector
-│   │   │   ├── controls.tsx            # Presets, exports, metrics & actions
-│   │   │   ├── github-guide-modal.tsx  # 4-step GitHub publishing guide
-│   │   │   ├── github-widgets.tsx      # GitHub Stats & Streak cards builder
-│   │   │   ├── live-preview.tsx        # Real-time Markdown / Preview
-│   │   │   ├── profile-form.tsx        # Form with inline AI polish buttons
-│   │   │   └── template-selector.tsx   # Minimal / Standard / Detailed
-│   │   ├── shared/
-│   │   │   ├── footer/                 # Responsive footer
-│   │   │   ├── header/                 # Header with theme toggle
-│   │   │   ├── modal.tsx               # Accessible dialog component (a11y)
-│   │   │   ├── theme-provider.tsx      # Dark / Light theme provider
-│   │   │   └── toast.tsx               # Contextual Toast notification system
-│   │   └── ui/
-│   │       ├── button/                 # Reusable button component
-│   │       └── card/                   # Interactive card component
-│   ├── error.tsx                       # Global Error Boundary
-│   ├── globals.css                     # Design tokens & dark/light CSS variables
-│   ├── layout.tsx                      # Root layout with ToastProvider
-│   ├── loading.tsx                     # Loading skeleton
-│   ├── not-found.tsx                   # 404 Page
-│   ├── page.tsx                        # Main page with Autosave & State
-│   ├── robots.ts                       # SEO robots.txt
-│   └── sitemap.ts                      # SEO sitemap.xml
-├── lib/
-│   ├── ai-service.ts                   # AI logic (Groq API + offline engine)
-│   ├── badge-catalog.ts                # 80+ Tech badges catalog & Shields.io generator
-│   ├── generate-markdown.ts            # Markdown compilation engine
-│   ├── github-widgets.ts               # GitHub widgets URLs & markdown generator
-│   ├── groq.ts                         # Sanity GROQ query helper & template fetcher
-│   ├── presets.ts                      # 1-click Profile presets (Fullstack, Frontend, AI)
-│   ├── templates.ts                    # Statically bundled default templates
-│   └── types.ts                        # Core TypeScript definitions
-└── prompt.md                           # Product specifications
-```
-
----
-
 ## 📜 License
 
 MIT © Tanguy Konan
